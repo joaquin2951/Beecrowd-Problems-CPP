@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 #define TAM 100
 
@@ -6,19 +7,21 @@ void imprimir_matriz(const int M[][TAM], const int tamanho);
 void cargar_matriz(int M[][TAM], const int tamanho);
 
 int main(int argc, char *argv[]) {
-	int M[TAM][TAM];
+	
 	int N;
 	
 	
 	do{
 		
 		cin >> N;
+		int M[TAM][TAM];
 		
-		if(N != 1){
+		if(N != 0){
 			cargar_matriz(M,N);
 			imprimir_matriz(M,N);
-		}else
-			 cout << 1 << endl;
+		}
+			
+		
 		
 		
 	} while(N != 0);
@@ -34,45 +37,53 @@ void cargar_matriz(int M[][TAM], const int tamanho){
 	int valorBorde = 1;
   int colInit = 0, filInit = 0;
 	int c, f;
+	int Mov;
 	
 	
 	while(CantMovF > 0 or CantMovC > 0){
 		
 		
-		c = colInit;
+		c = colInit; Mov = 0;
 		//llenamos para la derecha
-		for(c; c <= CantMovC; c++){
-			M[filInit][c] = valorBorde;
+		for(Mov; Mov <= CantMovC; Mov++){
+			M[filInit][c++] = valorBorde;
 		}
-		c--;
+		c--; 
 		
-		f = filInit;
+		
+		f = filInit; Mov= 0;
 		//llenamos para abajo
-		for(f; f <= CantMovF; f++){
-		  M[f][c] = valorBorde;	
+		for(Mov; Mov <= CantMovF; Mov++){
+		  M[f++][c] = valorBorde;	
 		}
-		f--; 
+		f--; CantMovF--;
 		
 		
+		Mov = 0;
 		//llenamos para izquierda
-		for(c; c >= colInit; c--){
-			M[f][c] = valorBorde;
+		for(Mov; Mov <= CantMovC; Mov++){
+			M[f][c--] = valorBorde;
 		}
-		c++;
+		c++; CantMovC-=2;
 		
 		
+		Mov = 0;
 		//llenamos para arriba
-		for(f; f > filInit; f--){
-			M[f][c] = valorBorde;
+		for(Mov; Mov <= CantMovF; Mov++){
+			M[f--][c] = valorBorde;
 		}
-		f--; CantMovF-=2; CantMovC-=2;
 		
-		colInit++; filInit++;
+		f++; CantMovF--; 
+		
+		colInit = c + 1; filInit = f;
+		
 		valorBorde++;
 		
 	}//fin WHILE
 	
 	
+	if((tamanho - 1) % 2 == 0)
+				M[(tamanho-1) / 2][(tamanho-1) / 2] = valorBorde;
 }
 
 
@@ -80,18 +91,20 @@ void cargar_matriz(int M[][TAM], const int tamanho){
 
 
 void imprimir_matriz(const int M[][TAM], const int tamanho){
-	for(int fil = 0; fil < tamanho; fil++){
-		for(int col = 0; col < tamanho; col++){
-			
-			if(col < tamanho - 1)
-				cout << M[fil][col] << "   ";
-			else
-				cout << M[fil][col];
-			
+	
+	
+	for(int i=0;i<tamanho;i++){
+		for(int j=0;j<tamanho;j++){
+			if(j==0){
+				cout<<setw(3)<<M[i][j];
+			}else {
+				cout<<setw(4)<<M[i][j];
+			}
 		}
-			
-			cout << endl;
+		cout<<endl;
 	}
+	cout<<endl;
+	
 }
 	
 	
